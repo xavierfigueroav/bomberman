@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 09/01/2018, 10:32:06
+    Author     : Xavier
+*/
+
+.root{
+    -fx-background-color:#000;
+}
+#gameName{
+    -fx-fill:white;
+    -fx-font:50px"8-bit pusab";
+}
+#groupText{
+    -fx-fill:white;
+    -fx-font:20px"8-bit pusab";
+}
+.button {
+    -fx-background-color:none;
+    -fx-font:16px "8-bit pusab";
+    -fx-text-fill:grey;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+.button:focused{
+    -fx-background-color:grey;
+    -fx-text-fill:#000;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
