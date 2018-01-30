@@ -5,70 +5,114 @@
  */
 package bomberman;
 
-import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 /**
  *
  * @author Xavier
  */
-public class Grid {
-    final private int WIDTH, HEIGHT, BLOCK_SIZE;
-    final private Background background ;
-    private ArrayList<Integer> fixedBlocks, tempBlocks;
+public class GameBoard {
+    public final int GRID_WIDTH, GRID_HEIGHT;
+    private GridPane grid;
+    private int[][] pseudoGrid;
+    public final int PSEUDO_FIXED_BLOCK, PSEUDO_TEMP_BLOCK, PSEUDO_NO_BLOCK, PSEUDO_BOMB;
     final private Image tempBlockImage;
     
-    public Grid(Image backgroundImage, String pathTempBlockImage){
-        this.WIDTH = 15;
-        this.HEIGHT = 11;
-        this.BLOCK_SIZE = 50;
+    public GameBoard(String pathTempBlockImage){
         
-        this.background = this.getBackground(backgroundImage);
+        PSEUDO_FIXED_BLOCK = 1;
+        PSEUDO_TEMP_BLOCK = 2;
+        PSEUDO_NO_BLOCK = 0;
+        PSEUDO_BOMB = -1;
+        
+        
+        GRID_WIDTH = 15;
+        GRID_HEIGHT = 11;
+        
+        this.pseudoGrid = new int[GRID_HEIGHT][GRID_WIDTH];
+        
+        this.grid = new GridPane();
+        this.grid.setId("grid");
+        
+        
+        for (int i = 0; i < GRID_WIDTH; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPercentWidth(100.0 / GRID_WIDTH);
+            grid.getColumnConstraints().add(colConst);
+        }
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPercentHeight(100.0 / GRID_HEIGHT);
+            grid.getRowConstraints().add(rowConst);         
+        }
+        
+        this.grid.setMinSize(750, 550);
+        this.grid.setMaxSize(750, 550);
+        this.grid.setGridLinesVisible(true);
+        
         this.setFixedBlocks();
         this.setTempBlocks();
         this.tempBlockImage = FileManager.getImage(pathTempBlockImage);
+        
+        
+        
+        for(int yBlock = 0; yBlock<GRID_HEIGHT;yBlock++){
+            for(int xBlock = 0; xBlock<GRID_WIDTH;xBlock++){
+                
+                if(this.pseudoGrid[yBlock][xBlock]==2){
+                    
+                    ImageView block = new ImageView(tempBlockImage);
+                    grid.add(block, xBlock, yBlock);
+                    
+                }
+                
+            }
+        }
+        
+        
+        //this.grid.getStylesheets().add("/styles/malla.css");
     }
     
-    private Background getBackground(Image image){
-        BackgroundImage backgroundImage = new BackgroundImage(image,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        return background;
+    
+    public GridPane getGrid(){
+        return this.grid;
     }
     
     private void setFixedBlocks(){
         
-        this.fixedBlocks = new ArrayList();
-        for(int i = 0; i<5; i++){
-            int block = 15 + (i*30);
-            for(int j = 0;j<7;j++){
-                block += 2;
-                this.fixedBlocks.add(block);
+        for(int i = 0; i<GRID_HEIGHT; i++){
+            for(int j = 0;j<GRID_WIDTH;j++){
+                if((i%2!=0)&&(j%2!=0)){
+                    this.pseudoGrid[i][j] = PSEUDO_FIXED_BLOCK;
+                }
             }
         }
         
     }
     
-    public void setTempBlocks(){
-        this.tempBlocks = new ArrayList();
+    private void setTempBlocks(){
         
-        this.tempBlocks.add(12);this.tempBlocks.add(20);this.tempBlocks.add(24);this.tempBlocks.add(26);
-        this.tempBlocks.add(32);this.tempBlocks.add(36);this.tempBlocks.add(38);this.tempBlocks.add(40);
-        this.tempBlocks.add(42);this.tempBlocks.add(50);this.tempBlocks.add(54);this.tempBlocks.add(62);
-        this.tempBlocks.add(64);this.tempBlocks.add(66);this.tempBlocks.add(70);this.tempBlocks.add(90);
-        this.tempBlocks.add(92);this.tempBlocks.add(96);this.tempBlocks.add(118);this.tempBlocks.add(122);
-        this.tempBlocks.add(130);this.tempBlocks.add(132);this.tempBlocks.add(138);this.tempBlocks.add(144);
-        this.tempBlocks.add(158);this.tempBlocks.add(160);
-        
+        this.pseudoGrid[0][11] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[1][4] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[1][8] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[1][10] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[2][1] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[2][5] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[2][7] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[2][9] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[2][11] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[3][4] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[3][8] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[4][1] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[4][3] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[4][5] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[4][9] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[5][14] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[6][1] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[6][5] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[7][12] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[8][1] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[8][9] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[8][11] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[9][2] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[9][8] = PSEUDO_TEMP_BLOCK;
+        this.pseudoGrid[10][7] = PSEUDO_TEMP_BLOCK;this.pseudoGrid[10][9] = PSEUDO_TEMP_BLOCK;
     }
     
-    public ArrayList<Integer> getTempBlocks(){
-        return this.tempBlocks;
+    public int[][] getPseudoGrid(){
+        return this.pseudoGrid;
     }
     
     public Image getTempBlockImage(){
@@ -76,42 +120,22 @@ public class Grid {
     }
     
     
-    
-    public boolean hasATempBlockIn(int position){
-        return this.tempBlocks.contains(position);
-    }
-    
-    public boolean hasATempBlockIn(double x, double y){
-        int position = convertToBlockNumber(x/BLOCK_SIZE, y/BLOCK_SIZE);
-        return this.tempBlocks.contains(position);
-    }
-    
-    public boolean hasATFixedBlockIn(int position){
-        return this.fixedBlocks.contains(position);
-    }
-    
-    public boolean hasAFixedBlockIn(double x, double y){
-        int position = convertToBlockNumber(x/BLOCK_SIZE, y/BLOCK_SIZE);
-        return this.fixedBlocks.contains(position);
-    }
-    
-    private int convertToBlockNumber(double x, double y){
-        int blockNumber = ((int)y * WIDTH) + (int)x + 1;
-        return blockNumber;
-    }
-    
-    public double[] convertToBlockPosition(int blockNumber){
+    public boolean hasATempBlockIn(int x, int y){
         
+        return (this.pseudoGrid[y][x]==2);
         
-        double yPosition = (int)((blockNumber-1) / WIDTH);
-        double xPosition = blockNumber - (WIDTH * yPosition) - 1;
-        double[] blockPosition = {xPosition * BLOCK_SIZE, yPosition * BLOCK_SIZE};
-        
-        return blockPosition;
     }
     
-    public Background getBackground(){
-        return this.background;
+    public boolean hasAFixedBlockIn(int x, int y){
+        
+        return (this.pseudoGrid[y][x]==1);
+        
+    }
+    
+    public boolean noBlockAt(int x, int y){
+        
+        return (this.pseudoGrid[y][x]==0);
+    
     }
     
 }

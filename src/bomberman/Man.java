@@ -5,61 +5,80 @@
  */
 package bomberman;
 
+import Threads.BombThread;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 /**
  *
  * @author Xavier
  */
 public class Man {
-    private ImageView token;
-    final private int MOVE = 50; 
+    private ImageView man, bomb;
+    private static int vidas;
     
     // Constructors
     public Man(){}
     
     public Man(Image imageToken){
-        this.token = new ImageView(imageToken);
+        this.vidas = 3;
+        this.man = new ImageView(imageToken);
+        this.bomb = new ImageView(FileManager.getImage("src/images/bomb.png"));
     }
     
-    public void moveOnKeyPressAround(Grid grid){
+    
+    public void handleKeyPressOn(GameBoard gameBoard){
         
-        token.setOnKeyPressed(new EventHandler<KeyEvent>(){
+        man.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event){
             
-                double actualX = token.getLayoutX();
-                double actualY = token.getLayoutY();
-                double newX, newY;
+                int actualX = GridPane.getColumnIndex(man);
+                int actualY = GridPane.getRowIndex(man);
+                int newX, newY;
+                GridPane grid = gameBoard.getGrid();
 
                 switch(event.getCode()){
                     case LEFT:
-                        newX = actualX-MOVE;
-                        if(actualX!=0 && canMoveAround(grid, newX, actualY)){
-                            token.setLayoutX(newX);
+                        newX = actualX - 1;
+                        if(actualX!=0 && gameBoard.noBlockAt(newX, actualY)){
+                            grid.getChildren().remove(man);
+                            grid.add(man, newX, actualY);
                         }
                         break;
                     case RIGHT:
-                        newX = actualX+MOVE;
-                        if(actualX!=700 && canMoveAround(grid, newX, actualY)){
-                            token.setLayoutX(newX);
+                        newX = actualX+1;
+                        if(actualX!=14 && gameBoard.noBlockAt(newX, actualY)){
+                            grid.getChildren().remove(man);
+                            grid.add(man, newX, actualY);
                         }
                         break;
                     case UP:
-                        newY = actualY-MOVE;
-                        if(actualY!=0 && canMoveAround(grid, actualX, newY)){
-                            token.setLayoutY(newY);
+                        newY = actualY-1;
+                        if(actualY!=0 && gameBoard.noBlockAt(actualX, newY)){
+                            grid.getChildren().remove(man);
+                            grid.add(man, actualX, newY);
                         }
                         break;
                     case DOWN:
-                        newY = actualY+MOVE;
-                        if(actualY!=500 && canMoveAround(grid, actualX, newY)){
-                            token.setLayoutY(newY);
+                        newY = actualY+1;
+                        if(actualY!=10 && gameBoard.noBlockAt(actualX, newY)){
+                            grid.getChildren().remove(man);
+                            grid.add(man, actualX, newY);
                         }
-                        break;
+                        break; 
+                    case A:
+                        grid.add(bomb, actualX, actualY);
+                        gameBoard.getPseudoGrid()[actualY][actualX] = gameBoard.PSEUDO_BOMB;
+                        turnOn(gameBoard);
                 }
             
             }
@@ -67,18 +86,70 @@ public class Man {
         
     }
     
-    private boolean canMoveAround(Grid grid, double x, double y){
-        return !grid.hasAFixedBlockIn(x, y) && !grid.hasATempBlockIn(x, y);
+    private void turnOn(GameBoard gameBoard){
+        
+        Duration duration = Duration.millis(3000);
+
+        KeyFrame keyFrame = new KeyFrame(duration, new detonate(gameBoard));
+        
+        Timeline timeline = new Timeline();
+        
+        timeline.getKeyFrames().add(keyFrame);
+        
+        timeline.play();
+    }   
+    
+    private class detonate implements EventHandler<ActionEvent>{
+        
+        private GameBoard gameBoard;
+        private int bombPosX, bombPosY;
+        public detonate(GameBoard gameBoard){
+            this.gameBoard = gameBoard;
+            this.bombPosY = GridPane.getRowIndex(bomb);
+            this.bombPosX = GridPane.getColumnIndex(bomb);
+        }
+        public void handle(ActionEvent event) {
+            
+            gameBoard.getGrid().getChildren().remove(bomb);
+           
+            gameBoard.getPseudoGrid()[bombPosY][bombPosX] = 0;
+            
+            destroyBlocks();
+        }
+        
+        private void destroyBlocks(){
+            
+            for(int f = -1;f<2;f++){
+                
+                for(int c = -1; c<2;c++){
+                    try{
+                        if(gameBoard.getPseudoGrid()[bombPosY+f][bombPosX+c] == gameBoard.PSEUDO_TEMP_BLOCK){
+
+                            gameBoard.getPseudoGrid()[bombPosY+f][bombPosX+c] = 0;
+
+                        }
+                    } catch(Exception e){
+                        System.out.println("Fuera del borde");
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
     }
     
+    
+    
     // Getters
-    public ImageView getAsNode(){
-        return this.token;
+    public ImageView get(){
+        return this.man;
     }
     
     // Setters
     public void setToken(Image imageToken){
-        this.token = new ImageView(imageToken);
+        this.man = new ImageView(imageToken);
     }
     
 }

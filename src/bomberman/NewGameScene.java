@@ -5,6 +5,8 @@
  */
 package bomberman;
 
+import Threads.BombThread;
+import Threads.ManThread;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -16,7 +18,11 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -30,45 +36,36 @@ public class NewGameScene {
     
     public Background background;
     private Man man;
-    private Pane root;
-    private Grid grid;
-    //public Text gameInfo;
+    private BorderPane root;
+    private GameBoard gameBoard;
     
     public NewGameScene(){
         
-        Image backgroundImage = FileManager.getImage("src/images/background.png");
         Image manImage = FileManager.getImage("src/images/man.png");
         
         this.man = new Man(manImage);
         
-        grid = new Grid(backgroundImage, "src/images/tempBlock.png");
+        this.gameBoard = new GameBoard("src/images/tempBlock.png");
+        GridPane grid = gameBoard.getGrid();
         
+        this.root = new BorderPane();
+        this.root.setBackground(getBackground(new Image("/images/background.png")));
+        this.root.setCenter(grid);
         
-        this.root = new Pane();
-        this.root.setBackground(grid.getBackground());
+        grid.add(man.get(),0,0);
         
+        this.man.handleKeyPressOn(gameBoard);
+        this.man.get().setFocusTraversable(true);
         
-        
-        for(int numberBlock: grid.getTempBlocks()){
-            ImageView block = new ImageView(grid.getTempBlockImage());
-            double[] position = grid.convertToBlockPosition(numberBlock);
-            
-            block.setLayoutX(position[0]);
-            block.setLayoutY(position[1]);
-            
-            this.root.getChildren().add(block);
-        }
-        
-        this.root.getChildren().add(man.getAsNode());
-        
-        this.man.moveOnKeyPressAround(grid);
-        this.man.getAsNode().setFocusTraversable(true);
     }
     
+    private Background getBackground(Image image){
+        BackgroundImage backgroundImage = new BackgroundImage(image,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        return background;
+    }
     
-    
-    
-    public Pane getRoot(){
+    public BorderPane getRoot(){
         return this.root;
     }
     
