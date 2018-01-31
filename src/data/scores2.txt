@@ -1,0 +1,9 @@
+Maria,500
+Tito,100
+Pedro,700
+Jose,123
+Carlos,3232
+Juan,111
+Rio,6049
+Xavier,1111
+Isabel,10

@@ -5,8 +5,6 @@
  */
 package bomberman;
 
-import Threads.BombThread;
-import Threads.ManThread;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;

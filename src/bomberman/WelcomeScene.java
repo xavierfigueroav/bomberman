@@ -5,21 +5,15 @@
  */
 package bomberman;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -31,6 +25,8 @@ public class WelcomeScene{
     private Button newGameButton, instructionsButton, rankingButton;
     
     public WelcomeScene(){
+        
+        Font.loadFont(WelcomeScene.class.getResource("/fonts/8-bit-pusab.ttf").toExternalForm(),10);
         
         gameName = new Text("Bomberman");
         gameName.setId("gameName");
