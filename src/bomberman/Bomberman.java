@@ -5,6 +5,7 @@
  */
 package bomberman;
 
+import Threads.GameEngine;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 public class Bomberman extends Application {
     
     private static Stage stage;
+    public static GameEngine game;
     private static Scene welcomeScene, newGameScene, instructionsScene, rankingScene;
     
     @Override
@@ -28,7 +30,6 @@ public class Bomberman extends Application {
         stage.setTitle("Bomberman");
         
         welcomeScene = new Scene(new WelcomeScene().getRoot(),800,600);
-        newGameScene = new Scene(new NewGameScene().getRoot(),800,600);
         instructionsScene = new Scene(new InstructionsScene().getRoot(),800,600);
         rankingScene = new Scene(new RankingScene().getRoot(),800,600);
         
@@ -44,24 +45,26 @@ public class Bomberman extends Application {
         
     }
     
-    public static void switchToNewGameScene(){
-        
+    public static void setNewGameScene(){
+
+        newGameScene = new Scene(new NewGameScene().getRoot(),800,600);
         stage.setScene(newGameScene);
         //newGameScene.getStylesheets().add("/styles/welcome.css");
         returnToWelcomeSceneOnKeyPress(newGameScene);
+        game = new GameEngine();
     }
     
     public static void switchToInstructionsScene(){
         
         stage.setScene(instructionsScene);
-        //instructionsScene.getStylesheets().add("/styles/welcome.css");
+        instructionsScene.getStylesheets().add("/styles/instructionsScene.css");
         returnToWelcomeSceneOnKeyPress(instructionsScene);
     }
     
     public static void switchToRankingScene(){
         
         stage.setScene(rankingScene);
-        //rankingScene.getStylesheets().add("/styles/welcome.css");
+        rankingScene.getStylesheets().add("/styles/rankingScene.css");
         returnToWelcomeSceneOnKeyPress(rankingScene);
     }
     
@@ -70,11 +73,22 @@ public class Bomberman extends Application {
             @Override
             public void handle(KeyEvent event){
                 if(event.getCode().equals(KeyCode.BACK_SPACE)){
-                    switchToWelcomeScene();
+                    
+                    if(newGameScene == null){
+                        switchToWelcomeScene();
+                    } else if(scene.getRoot().equals(newGameScene.getRoot())){
+                        game.stopBalloons();
+                        game.stopClock();
+                        switchToWelcomeScene();
+                    } else{
+                        switchToWelcomeScene();
+                    }
+                    
                 }
             }
         });
     }
+    
 
     /**
      * @param args the command line arguments

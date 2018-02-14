@@ -57,7 +57,7 @@ public class WelcomeScene{
             if(event.getCode().equals(KeyCode.ENTER)){
                 
                 if(event.getSource() == newGameButton){
-                    Bomberman.switchToNewGameScene();
+                    Bomberman.setNewGameScene();
                 } else if (event.getSource() == instructionsButton){
                     Bomberman.switchToInstructionsScene();
                 } else {

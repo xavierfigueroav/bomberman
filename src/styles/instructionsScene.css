@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11/02/2018, 22:11:49
+    Author     : Xavier
+*/
+
+.root{
+    -fx-background-color:#000;
+}
+
+#title {
+    -fx-fill:white;
+    -fx-font:25px"8-bit pusab";
+    
+}
+
+
+#instructionsText {
+    -fx-fill:grey;
+    -fx-font:14px"pix Chicago";
+    
+}

@@ -7,3 +7,5 @@ Juan,111
 Rio,6049
 Xavier,1111
 Isabel,10
+Kasandara,22
+Billy,304
