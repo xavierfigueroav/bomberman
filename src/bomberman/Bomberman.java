@@ -5,7 +5,10 @@
  */
 package bomberman;
 
+import Threads.Balloon;
+import Threads.Clock;
 import Threads.GameEngine;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -31,7 +34,6 @@ public class Bomberman extends Application {
         
         welcomeScene = new Scene(new WelcomeScene().getRoot(),800,600);
         instructionsScene = new Scene(new InstructionsScene().getRoot(),800,600);
-        rankingScene = new Scene(new RankingScene().getRoot(),800,600);
         
         switchToWelcomeScene();
         
@@ -48,10 +50,18 @@ public class Bomberman extends Application {
     public static void setNewGameScene(){
 
         newGameScene = new Scene(new NewGameScene().getRoot(),800,600);
-        stage.setScene(newGameScene);
-        //newGameScene.getStylesheets().add("/styles/welcome.css");
-        returnToWelcomeSceneOnKeyPress(newGameScene);
         game = new GameEngine();
+        stage.setScene(newGameScene);
+        returnToWelcomeSceneOnKeyPress(newGameScene);
+        
+    }
+    
+    public static void setNewGameScene(int lives, int score, Clock clock){
+
+        newGameScene = new Scene(new NewGameScene().getRoot(),800,600);
+        game = new GameEngine(lives, score, clock);
+        stage.setScene(newGameScene);
+        returnToWelcomeSceneOnKeyPress(newGameScene);
     }
     
     public static void switchToInstructionsScene(){
@@ -59,13 +69,23 @@ public class Bomberman extends Application {
         stage.setScene(instructionsScene);
         instructionsScene.getStylesheets().add("/styles/instructionsScene.css");
         returnToWelcomeSceneOnKeyPress(instructionsScene);
+        
     }
     
     public static void switchToRankingScene(){
         
+        rankingScene = new Scene(new RankingScene().getRoot(),800,600);
         stage.setScene(rankingScene);
         rankingScene.getStylesheets().add("/styles/rankingScene.css");
         returnToWelcomeSceneOnKeyPress(rankingScene);
+        
+    }
+    
+    public static void switchToEndGameScene(boolean isWinner, int score){
+        Scene endGameScene = new Scene(new GameOverScene(isWinner, score).getRoot(),800,600);
+        stage.setScene(endGameScene);
+        endGameScene.getStylesheets().add("/styles/GameOverScene.css");
+        
     }
     
     private static void returnToWelcomeSceneOnKeyPress(Scene scene){

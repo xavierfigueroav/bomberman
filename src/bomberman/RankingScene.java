@@ -75,7 +75,7 @@ public class RankingScene {
     
     private void createRankings(){
         
-        ArrayList<String> scores = FileManager.readFile("src/data/scores2.txt");
+        ArrayList<String> scores = FileManager.readFile("src/data/scores.txt");
         
         rankingSortedByName = new TreeMap<>();
         

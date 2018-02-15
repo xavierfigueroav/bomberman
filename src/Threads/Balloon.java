@@ -38,9 +38,13 @@ public class Balloon{
         
     }
     
-    private void setBalloon(){
-        GameBoard.setInGrid(this, balloonPosX, balloonPosY);
+    public void setBalloon(){
+        GameBoard.setInGrid(this, this.balloonPosX, this.balloonPosY);
     }
+    /*
+    public void setBalloon(Balloon balloon){
+        GameBoard.setInGrid(balloon, balloon.getPosX(), balloon.getPosY());
+    }*/
     
     private void releaseBalloon(){
         Duration period = Duration.millis(1000);
@@ -61,20 +65,20 @@ public class Balloon{
         public void handle(ActionEvent event) {
             
             if(GameBoard.isEmptyAt(balloonPosX+direction, balloonPosY)){
-                System.out.println("Está vacío");
+                
                 GameBoard.removeFromTheGrid(balloon);
                 GameBoard.setInGrid(Balloon.this, balloonPosX+direction, balloonPosY);
                 balloonPosX += direction;
                 
                 
             } else if(GameBoard.hasManAt(balloonPosX+direction, balloonPosY)){
-                System.out.println("Hay un man");
+                
+                Bomberman.game.stopBalloons();
                 Bomberman.game.decreaseALive();
-                direction *= -1;
                 
                 
             } else {
-                System.out.println("NO está vacío");
+                
                 direction *= -1;
                 GameBoard.removeFromTheGrid(balloon);
                 GameBoard.setInGrid(Balloon.this, balloonPosX+direction, balloonPosY);
@@ -104,6 +108,14 @@ public class Balloon{
     
     public ImageView getAsNode(){
         return this.balloon;
+    }
+    
+    public int getPosX(){
+        return this.balloonPosX;
+    }
+    
+    public int getPosY(){
+        return this.balloonPosY;
     }
     
 }

@@ -28,7 +28,7 @@ public class NewGameScene {
     
     
     public NewGameScene(){
-        this.gameBoard = new GameBoard("src/images/tempBlock.png");
+        this.gameBoard = new GameBoard();
         this.man = new Man();
         
         

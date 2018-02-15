@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15/02/2018, 0:59:54
+    Author     : Xavier
+*/
+
+.root {
+    -fx-background-color: #000;
+}
+
+#message {
+    
+    -fx-fill: white;
+    -fx-font:50px"8-bit pusab";
+}
+
+#order {
+    
+    -fx-fill: white;
+    -fx-font:20px"8-bit pusab";
+}
+
+#nameField {
+    -fx-background-color: grey;
+    -fx-font:20px "pix Chicago";
+    -fx-text-fill:#000;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-alignment: center ;
+}

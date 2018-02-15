@@ -8,9 +8,6 @@ package Threads;
 import bomberman.Bomberman;
 import bomberman.FileManager;
 import bomberman.GameBoard;
-import bomberman.Man;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -75,20 +72,20 @@ public class Bomb{
     
     private void destroyBlocks(){
         
-            if(GameBoard.hasATempBlockIn(bombPosX, bombPosY+1)){
-                GameBoard.setInPseudoGrid(GameBoard.PSEUDO_EMPTY, bombPosX, bombPosY+1);
+            if(GameBoard.hasATempBlockAt(bombPosX, bombPosY+1)){
+                GameBoard.destroyBlockAt(bombPosX, bombPosY+1);
             }
 
-            if(GameBoard.hasATempBlockIn(bombPosX, bombPosY-1)){
-                GameBoard.setInPseudoGrid(GameBoard.PSEUDO_EMPTY, bombPosX, bombPosY-1);
+            if(GameBoard.hasATempBlockAt(bombPosX, bombPosY-1)){
+                GameBoard.destroyBlockAt(bombPosX, bombPosY-1);
             }
 
-            if(GameBoard.hasATempBlockIn(bombPosX+1, bombPosY)){
-                GameBoard.setInPseudoGrid(GameBoard.PSEUDO_EMPTY, bombPosX+1, bombPosY);
+            if(GameBoard.hasATempBlockAt(bombPosX+1, bombPosY)){
+                GameBoard.destroyBlockAt(bombPosX+1, bombPosY);
             }
 
-            if(GameBoard.hasATempBlockIn(bombPosX-1, bombPosY)){
-                GameBoard.setInPseudoGrid(GameBoard.PSEUDO_EMPTY, bombPosX-1, bombPosY);
+            if(GameBoard.hasATempBlockAt(bombPosX-1, bombPosY)){
+                GameBoard.destroyBlockAt(bombPosX-1, bombPosY);
             }
         
     }
@@ -96,18 +93,22 @@ public class Bomb{
     private void killMan(){
         
         if(GameBoard.hasManAt(bombPosX, bombPosY+1)){
-                Bomberman.game.decreaseALive();
-            }
+            Bomberman.game.stopBalloons();
+            Bomberman.game.decreaseALive();
+        }
 
         if(GameBoard.hasManAt(bombPosX, bombPosY-1)){
+            Bomberman.game.stopBalloons();
             Bomberman.game.decreaseALive();
         }
 
         if(GameBoard.hasManAt(bombPosX+1, bombPosY)){
+            Bomberman.game.stopBalloons();
             Bomberman.game.decreaseALive();
         }
 
         if(GameBoard.hasManAt(bombPosX-1, bombPosY)){
+            Bomberman.game.stopBalloons();
             Bomberman.game.decreaseALive();
         }
         

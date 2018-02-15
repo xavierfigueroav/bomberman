@@ -5,8 +5,11 @@
  */
 package Threads;
 
+import bomberman.Bomberman;
 import bomberman.GameBoard;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -17,7 +20,7 @@ public class GameEngine implements Runnable{
     private int lives;
     private int score;
     private Clock clock;
-    private ArrayList<Balloon> balloons;
+    private Map<Integer,Balloon> balloons;
     
     public GameEngine(){
         
@@ -29,46 +32,56 @@ public class GameEngine implements Runnable{
         
     }
     
+    public GameEngine(int lives, int score, Clock clock){
+        
+        this.lives = lives;
+        this.score = score;
+        this.clock = clock;
+        
+        setBalloons();
+    }
+    
     private void setBalloons(){
         
-        this.balloons = new ArrayList();
-        balloons.add(new Balloon(10,0));
-        //balloons.add(new Balloon(6,6));
-        //balloons.add(new Balloon(2,8));
+        this.balloons = new TreeMap();
+        balloons.put(0,new Balloon(10,0));
+        balloons.put(6,new Balloon(6,6));
+        balloons.put(8,new Balloon(2,8));
         
     }
     
     public void destroyABalloon(int posY){
         
-        if(posY == 0){
-            balloons.get(0).destroyBalloon();
-        } else if(posY == 6){
-            balloons.get(1).destroyBalloon();
-        } else {
-            balloons.get(2).destroyBalloon();
-        }
-        
-        score+=100;
+        balloons.get(posY).destroyBalloon();
+        this.score+=100;
         
     }
     
     public void decreaseALive(){
-        
-        if(lives!=0){
-            lives--;
-            System.out.println("Te quedan "+lives+" vidas.");
+        lives--;
+        System.out.println("Te quedan "+lives+" vidas.");
+        if(lives>0){
+            Bomberman.setNewGameScene(this.lives, this.score, this.clock);
+        } else {
+            stopBalloons();
+            stopClock();
+            endGame();
         }
         
     }
     
-    
-    
     public void stopBalloons(){
         if(balloons!=null){
-            for(Balloon balloon: balloons){
+            for(Balloon balloon: balloons.values()){
                 balloon.stopBalloon();
             }
         }
+    }
+    
+    private void endGame(){
+        
+        Bomberman.switchToEndGameScene(false,this.score);
+        
     }
     
     public void stopClock(){
