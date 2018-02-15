@@ -5,8 +5,10 @@
  */
 package bomberman;
 
-import Threads.Balloon;
-import Threads.Bomb;
+import threads.Balloon;
+import threads.Man;
+import threads.Bomb;
+import util.FileManager;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -27,17 +29,19 @@ public class GameBoard {
     public static final int PSEUDO_BOMB = -1;
     public static final int PSEUDO_BALLOON = -2;
     public static final int PSEUDO_MAN = 3;
+    public static final int PSEUDO_GATE = 5;
     
     private static GridPane grid;
     private static int[][] mirrorGrid;
     private static ImageView[][] mirrorTempBlocks;
+    private static int[] gatePosition;
     
     public GameBoard(){
         
         mirrorGrid = new int[GRID_HEIGHT][GRID_WIDTH];
         mirrorTempBlocks = new ImageView[GRID_HEIGHT][GRID_WIDTH];
         createGrid();
-        
+        gatePosition = new int[2]; gatePosition[0] = 0; gatePosition[1] = 11;
     }
     
     private void createGrid(){
@@ -56,7 +60,6 @@ public class GameBoard {
         
         grid.setMinSize(750, 550);
         grid.setMaxSize(750, 550);
-        grid.setGridLinesVisible(true);
         
         setTempBlocks();
         setFixedBlocks();
@@ -73,9 +76,9 @@ public class GameBoard {
             int posX = Integer.parseInt(position[1]);
             
             ImageView block = new ImageView(FileManager.getImage("src/images/tempBlock.png"));
-            this.grid.add(block, posX, posY);
-            this.mirrorTempBlocks[posY][posX] = block;
-            this.mirrorGrid[posY][posX] = PSEUDO_TEMP_BLOCK;
+            grid.add(block, posX, posY);
+            mirrorTempBlocks[posY][posX] = block;
+            mirrorGrid[posY][posX] = PSEUDO_TEMP_BLOCK;
             
         }
     }
@@ -152,6 +155,10 @@ public class GameBoard {
         }
         return false;
         
+    }
+    
+    public static boolean hasTheGateAt(int x, int y){
+        return ((x == gatePosition[1]) && (y == gatePosition[0]));
     }
     
     public static boolean hasManAt(int x, int y){

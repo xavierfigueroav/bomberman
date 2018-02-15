@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Threads;
+package threads;
 
 import bomberman.Bomberman;
-import bomberman.GameBoard;
-import java.util.ArrayList;
+import bomberman.NewGame;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,7 +14,7 @@ import java.util.TreeMap;
  *
  * @author Xavier
  */
-public class GameEngine implements Runnable{
+public class GameEngine{
     
     private int lives;
     private int score;
@@ -29,7 +28,6 @@ public class GameEngine implements Runnable{
         clock = new Clock();
         
         setBalloons();
-        
     }
     
     public GameEngine(int lives, int score, Clock clock){
@@ -50,22 +48,23 @@ public class GameEngine implements Runnable{
         
     }
     
-    public void destroyABalloon(int posY){
+    public void destroyABalloon(int code){
         
-        balloons.get(posY).destroyBalloon();
+        balloons.get(code).destroyBalloon();
+        balloons.remove(code);
         this.score+=100;
+        NewGame.refreshScore();
         
     }
     
     public void decreaseALive(){
         lives--;
-        System.out.println("Te quedan "+lives+" vidas.");
         if(lives>0){
             Bomberman.setNewGameScene(this.lives, this.score, this.clock);
         } else {
             stopBalloons();
             stopClock();
-            endGame();
+            endGame(false);
         }
         
     }
@@ -78,19 +77,56 @@ public class GameEngine implements Runnable{
         }
     }
     
-    private void endGame(){
+    public void endGame(boolean isWinner){
         
-        Bomberman.switchToEndGameScene(false,this.score);
+        if(isWinner){
+            setBonus();
+        }
         
+        Bomberman.switchToEndGameScene(isWinner,this.score);
+        
+    }
+    
+    private void setBonus(){
+        
+        if(clock.getMinutes()<2){
+            this.score +=1000;
+            NewGame.refreshScore();
+        } else if(clock.getMinutes()<4){
+            this.score +=500;
+            NewGame.refreshScore();
+        }
+        
+    }
+    
+    public boolean theGateIsOpen(){
+        return balloons.isEmpty();
     }
     
     public void stopClock(){
         clock.stopClock();
     }
-
-    @Override
-    public void run() {
+    
+    public int getLives(){
+        return this.lives;
+    }
+    
+    public String getScore(){
+        String sc = Integer.toString(this.score);
         
+        if(this.score<10){
+            sc = "000"+this.score;
+        } else if(this.score<100){
+            sc = "00"+this.score;
+        }else if(this.score<1000){
+            sc = "0"+this.score;
+        }
+        
+        return sc;
+    }
+    
+    public String getTime(){
+        return clock.getTime();
     }
     
 }

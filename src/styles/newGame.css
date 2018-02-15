@@ -4,10 +4,12 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 21/01/2018, 15:59:20
+    Created on : 15/02/2018, 15:21:32
     Author     : Xavier
 */
 
-#grid{
-    -fx-border-color: red;
+#info {
+    -fx-font:16px "pix Chicago";
+    -fx-fill: white;
+    -fx-text-fill:white;
 }

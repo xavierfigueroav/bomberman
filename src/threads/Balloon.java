@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Threads;
+package threads;
 
-import bomberman.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import bomberman.Bomberman;
+import bomberman.GameBoard;
+import util.FileManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,13 +22,12 @@ import javafx.util.Duration;
  */
 public class Balloon{
     
-    private ImageView balloon;
+    private final ImageView balloon;
     private int balloonPosX, balloonPosY, direction;
     private Timeline timeline;
     
     public Balloon(int balloonPosX, int balloonPosY){
-        
-        this.balloon = new ImageView(FileManager.getImage("src/images/balloon.png"));
+        this.balloon = new ImageView(FileManager.getImage("src/images/balloon.gif"));
         this.balloonPosX = balloonPosX;
         this.balloonPosY = balloonPosY;
         this.direction = 1;
@@ -41,13 +40,9 @@ public class Balloon{
     public void setBalloon(){
         GameBoard.setInGrid(this, this.balloonPosX, this.balloonPosY);
     }
-    /*
-    public void setBalloon(Balloon balloon){
-        GameBoard.setInGrid(balloon, balloon.getPosX(), balloon.getPosY());
-    }*/
     
     private void releaseBalloon(){
-        Duration period = Duration.millis(1000);
+        Duration period = Duration.millis(250);
 
         KeyFrame keyFrame = new KeyFrame(period, new Motion());
         
@@ -73,8 +68,8 @@ public class Balloon{
                 
             } else if(GameBoard.hasManAt(balloonPosX+direction, balloonPosY)){
                 
-                Bomberman.game.stopBalloons();
-                Bomberman.game.decreaseALive();
+                Bomberman.gameEngine.stopBalloons();
+                Bomberman.gameEngine.decreaseALive();
                 
                 
             } else {
@@ -83,12 +78,8 @@ public class Balloon{
                 GameBoard.removeFromTheGrid(balloon);
                 GameBoard.setInGrid(Balloon.this, balloonPosX+direction, balloonPosY);
                 balloonPosX += direction;
-                
-                
             }
-            
         }
-        
     }
     
     public void stopBalloon(){

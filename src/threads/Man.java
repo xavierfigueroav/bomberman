@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bomberman;
+package threads;
 
-import Threads.Bomb;
+import util.FileManager;
+import bomberman.Bomberman;
+import bomberman.GameBoard;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -16,9 +18,8 @@ import javafx.scene.layout.GridPane;
  * @author Xavier
  */
 public class Man{
-    private ImageView man;
+    private final ImageView man;
     private int manPosX, manPosY;
-    private Bomb bomb;
     
     public Man(){
         this.man = new ImageView(FileManager.getImage("src/images/man.png"));
@@ -48,6 +49,12 @@ public class Man{
                         if(GameBoard.isEmptyAt(newX, manPosY)){
                             GameBoard.removeFromTheGrid(man);
                             GameBoard.setInGrid(Man.this, newX, manPosY);
+                            
+                            if(GameBoard.hasTheGateAt(newX, manPosY) && Bomberman.gameEngine.theGateIsOpen()){
+                                Bomberman.gameEngine.stopClock();
+                                Bomberman.gameEngine.endGame(true);
+                            }
+                            
                         }
                         break;
                     case RIGHT:
@@ -55,6 +62,12 @@ public class Man{
                         if(GameBoard.isEmptyAt(newX, manPosY)){
                             GameBoard.removeFromTheGrid(man);
                             GameBoard.setInGrid(Man.this, newX, manPosY);
+                            
+                            if(GameBoard.hasTheGateAt(newX, manPosY) && Bomberman.gameEngine.theGateIsOpen()){
+                                Bomberman.gameEngine.stopClock();
+                                Bomberman.gameEngine.endGame(true);
+                            }
+                            
                         }
                         break;
                     case UP:
@@ -62,6 +75,12 @@ public class Man{
                         if(GameBoard.isEmptyAt(manPosX, newY)){
                             GameBoard.removeFromTheGrid(man);
                             GameBoard.setInGrid(Man.this, manPosX, newY);
+                            
+                            if(GameBoard.hasTheGateAt(manPosX, newY) && Bomberman.gameEngine.theGateIsOpen()){
+                                Bomberman.gameEngine.stopClock();
+                                Bomberman.gameEngine.endGame(true);
+                            }
+                            
                         }
                         break;
                     case DOWN:
@@ -69,10 +88,16 @@ public class Man{
                         if(GameBoard.isEmptyAt(manPosX, newY)){
                             GameBoard.removeFromTheGrid(man);
                             GameBoard.setInGrid(Man.this, manPosX, newY);
+                            
+                            if(GameBoard.hasTheGateAt(manPosX, newY) && Bomberman.gameEngine.theGateIsOpen()){
+                                Bomberman.gameEngine.stopClock();
+                                Bomberman.gameEngine.endGame(true);
+                            }
+                            
                         }
                         break; 
                     case A:
-                        bomb = new Bomb(manPosX, manPosY);
+                        new Bomb(manPosX, manPosY);
                         break;
                         
                 }

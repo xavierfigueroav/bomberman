@@ -5,37 +5,35 @@
  */
 package bomberman;
 
-import java.awt.Color;
+import util.FileManager;
+import util.ValueComparator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 /**
  *
  * @author Xavier
  */
-public class RankingScene {
+public class Ranking {
     //private ScrollPane root;
     private TreeMap<String, Integer> rankingSortedByName, rankingSortedByScore;
-    private VBox root;
-    private HBox head, buttons, rankingContainer;
+    private final VBox root;
+    private final HBox head, buttons, rankingContainer;
     GridPane grid;
     Button sortByName, sortByScore;
     
-    public RankingScene(){
+    public Ranking(){
         
         this.createRankings();
         
@@ -75,7 +73,7 @@ public class RankingScene {
     
     private void createRankings(){
         
-        ArrayList<String> scores = FileManager.readFile("src/data/scores.txt");
+        ArrayList<String> scores = FileManager.readFile("src/data/scores.csv");
         
         rankingSortedByName = new TreeMap<>();
         
@@ -83,9 +81,13 @@ public class RankingScene {
             
             String line = scores.get(i);
             String[] player_score = line.split(",");
-            String player = player_score[0];
-            String score = player_score[1];
-            rankingSortedByName.put(player, Integer.parseInt(score));
+            try{
+                String player = player_score[0];
+                String score = player_score[1];
+                rankingSortedByName.put(player, Integer.parseInt(score));
+            } catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("There is no information about players.");
+            }
             
         }
         

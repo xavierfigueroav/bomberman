@@ -5,9 +5,7 @@
  */
 package bomberman;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -17,13 +15,10 @@ import javafx.scene.text.TextFlow;
  *
  * @author Xavier
  */
-public class InstructionsScene {
-    private VBox root;
+public class Instructions {
+    private final VBox root;
     
-    public InstructionsScene(){
-        
-        Font.loadFont(WelcomeScene.class.getResource("/fonts/8-bit-pusab.ttf").toExternalForm(),10);
-        Font.loadFont(WelcomeScene.class.getResource("/fonts/pixChicago.ttf").toExternalForm(),10);
+    public Instructions(){
         
         TextFlow board = new TextFlow();
         board.setLineSpacing(5);

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Threads;
+package threads;
 
 import bomberman.Bomberman;
-import bomberman.FileManager;
+import util.FileManager;
 import bomberman.GameBoard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,8 +21,8 @@ import javafx.util.Duration;
  */
 public class Bomb{
     
-    private ImageView bomb;
-    private int bombPosX, bombPosY;
+    private final ImageView bomb;
+    private final int bombPosX, bombPosY;
     
     
     public Bomb(int bombPosX, int bombPosY){
@@ -72,44 +72,54 @@ public class Bomb{
     
     private void destroyBlocks(){
         
-            if(GameBoard.hasATempBlockAt(bombPosX, bombPosY+1)){
-                GameBoard.destroyBlockAt(bombPosX, bombPosY+1);
-            }
+        if(GameBoard.hasATempBlockAt(bombPosX, bombPosY)){
+            GameBoard.destroyBlockAt(bombPosX, bombPosY);
+        }
+        
+        if(GameBoard.hasATempBlockAt(bombPosX, bombPosY+1)){
+            GameBoard.destroyBlockAt(bombPosX, bombPosY+1);
 
-            if(GameBoard.hasATempBlockAt(bombPosX, bombPosY-1)){
-                GameBoard.destroyBlockAt(bombPosX, bombPosY-1);
-            }
+        }
 
-            if(GameBoard.hasATempBlockAt(bombPosX+1, bombPosY)){
-                GameBoard.destroyBlockAt(bombPosX+1, bombPosY);
-            }
+        if(GameBoard.hasATempBlockAt(bombPosX, bombPosY-1)){
+            GameBoard.destroyBlockAt(bombPosX, bombPosY-1);
+        }
 
-            if(GameBoard.hasATempBlockAt(bombPosX-1, bombPosY)){
-                GameBoard.destroyBlockAt(bombPosX-1, bombPosY);
-            }
+        if(GameBoard.hasATempBlockAt(bombPosX+1, bombPosY)){
+            GameBoard.destroyBlockAt(bombPosX+1, bombPosY);
+        }
+
+        if(GameBoard.hasATempBlockAt(bombPosX-1, bombPosY)){
+            GameBoard.destroyBlockAt(bombPosX-1, bombPosY);
+        }
         
     }
     
     private void killMan(){
         
+        if(GameBoard.hasManAt(bombPosX, bombPosY)){
+            Bomberman.gameEngine.stopBalloons();
+            Bomberman.gameEngine.decreaseALive();
+        }
+        
         if(GameBoard.hasManAt(bombPosX, bombPosY+1)){
-            Bomberman.game.stopBalloons();
-            Bomberman.game.decreaseALive();
+            Bomberman.gameEngine.stopBalloons();
+            Bomberman.gameEngine.decreaseALive();
         }
 
         if(GameBoard.hasManAt(bombPosX, bombPosY-1)){
-            Bomberman.game.stopBalloons();
-            Bomberman.game.decreaseALive();
+            Bomberman.gameEngine.stopBalloons();
+            Bomberman.gameEngine.decreaseALive();
         }
 
         if(GameBoard.hasManAt(bombPosX+1, bombPosY)){
-            Bomberman.game.stopBalloons();
-            Bomberman.game.decreaseALive();
+            Bomberman.gameEngine.stopBalloons();
+            Bomberman.gameEngine.decreaseALive();
         }
 
         if(GameBoard.hasManAt(bombPosX-1, bombPosY)){
-            Bomberman.game.stopBalloons();
-            Bomberman.game.decreaseALive();
+            Bomberman.gameEngine.stopBalloons();
+            Bomberman.gameEngine.decreaseALive();
         }
         
         
@@ -117,20 +127,24 @@ public class Bomb{
     
     private void destroyBalloons(){
         
+        if(GameBoard.hasABalloonAt(bombPosX, bombPosY)){
+            Bomberman.gameEngine.destroyABalloon(bombPosY);
+        }
+        
         if(GameBoard.hasABalloonAt(bombPosX, bombPosY+1)){
-            Bomberman.game.destroyABalloon(bombPosY+1);
+            Bomberman.gameEngine.destroyABalloon(bombPosY+1);
         }
 
         if(GameBoard.hasABalloonAt(bombPosX, bombPosY-1)){
-            Bomberman.game.destroyABalloon(bombPosY-1);
+            Bomberman.gameEngine.destroyABalloon(bombPosY-1);
         }
 
         if(GameBoard.hasABalloonAt(bombPosX+1, bombPosY)){
-            Bomberman.game.destroyABalloon(bombPosY);
+            Bomberman.gameEngine.destroyABalloon(bombPosY);
         }
 
         if(GameBoard.hasABalloonAt(bombPosX-1, bombPosY)){
-            Bomberman.game.destroyABalloon(bombPosY);
+            Bomberman.gameEngine.destroyABalloon(bombPosY);
         }
         
     }

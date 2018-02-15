@@ -5,15 +5,14 @@
  */
 package bomberman;
 
+import util.FileManager;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -21,12 +20,12 @@ import javafx.scene.text.Text;
  *
  * @author Xavier
  */
-public class GameOverScene {
+public class GameOver {
     
     private BorderPane root;
     private TextField nameField;
     
-    public GameOverScene(boolean isWinner, int score){
+    public GameOver(boolean isWinner, int score){
         
         Text message, order;
         if(isWinner){
@@ -73,7 +72,7 @@ public class GameOverScene {
                     ArrayList<String> data = new ArrayList();
                     data.add(name+","+score);
                     
-                    FileManager.writeFile("src/data/scores.txt", data);
+                    FileManager.writeFile("src/data/scores.csv", data);
                     
                     Bomberman.switchToWelcomeScene();
                 }

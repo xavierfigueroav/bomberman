@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Threads;
-import java.util.Timer;
+package threads;
+import bomberman.NewGame;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -58,9 +58,7 @@ public class Clock{
             } else {
                 seconds++;
             }
-                
-            System.out.println(hours+" : "+minutes+" : "+seconds);
-            //wind();
+            NewGame.refreshTime();
                 
         }
         
@@ -76,6 +74,24 @@ public class Clock{
     
     public int getHours(){
         return this.hours;
+    }
+    
+    public String getTime(){
+        String sec = Integer.toString(this.seconds);
+        String min = Integer.toString(this.minutes);
+        String h = Integer.toString(this.hours);
+        
+        if(this.seconds<10){
+            sec = "0"+this.seconds;
+        }
+        if(this.minutes<10){
+            min = "0"+this.minutes;
+        }
+        if(this.hours<10){
+            h = "0"+this.hours;
+        }
+        
+        return h+":"+min+":"+sec;
     }
     
     public void stopClock(){

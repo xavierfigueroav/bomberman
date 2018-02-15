@@ -12,21 +12,18 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
  *
  * @author Xavier
  */
-public class WelcomeScene{
-    private VBox root;
-    Text gameName, groupText;
-    private Button newGameButton, instructionsButton, rankingButton;
+public class Welcome{
+    private final VBox root;
+    private final Text gameName, groupText;
+    private final Button newGameButton, instructionsButton, rankingButton;
     
-    public WelcomeScene(){
-        
-        Font.loadFont(WelcomeScene.class.getResource("/fonts/8-bit-pusab.ttf").toExternalForm(),10);
+    public Welcome(){
         
         gameName = new Text("Bomberman");
         gameName.setId("gameName");
