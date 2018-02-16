@@ -15,8 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos que constituyen a la pantalla de bienvenida del juego, lo primero que ve el usuario.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class Welcome{
     private final VBox root;
@@ -66,6 +66,10 @@ public class Welcome{
     
     }
     
+    /**
+    * Se encarga de retornar el objeto contenedor que será usado como Node Root para ser colocado en un objeto Scene.
+    * @return Instancia de la clase VBox.
+    */
     public VBox getRoot(){
         return this.root;
     }

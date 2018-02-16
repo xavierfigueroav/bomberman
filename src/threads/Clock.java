@@ -13,8 +13,8 @@ import javafx.event.EventHandler;
 import javafx.util.Duration;
 
 /**
- *
- * @author Xavier
+ * Temporizador del juego.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class Clock{
     
@@ -58,24 +58,24 @@ public class Clock{
             } else {
                 seconds++;
             }
-            NewGame.refreshTime();
+            NewGame.refreshTime(Clock.this.getTime());
                 
         }
         
     }
     
-    public int getSeconds(){
-        return this.seconds;
-    }
-    
+    /**
+     * Retorna los minutos transcurridos durante el juego.
+     * @return Entero entre 0 y 59 que representa los minutos transcurridos en 1 hora.
+     */
     public int getMinutes(){
         return this.minutes;
     }
     
-    public int getHours(){
-        return this.hours;
-    }
-    
+    /**
+     * Retorna el tiempo transcurrido durante el juego en formato hh:mm:ss.
+     * @return Tiempo transcurrido durante el juego en formato hh:mm:ss.
+     */
     public String getTime(){
         String sec = Integer.toString(this.seconds);
         String min = Integer.toString(this.minutes);
@@ -94,6 +94,9 @@ public class Clock{
         return h+":"+min+":"+sec;
     }
     
+    /**
+     * Se encarga de detener el temporizador.
+     */
     public void stopClock(){
         this.timeline.stop();
     }

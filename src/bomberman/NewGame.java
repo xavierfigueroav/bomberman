@@ -19,8 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos que constituyen a la pantalla de juego.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class NewGame {
     
@@ -55,6 +55,9 @@ public class NewGame {
         
     }
     
+    /**
+    * Una vez que la pantalla de juego es creada, se encarga de mostrar el tiempo, el puntaje y las vidas restantes.
+    */
     public static void setInfo(){
         String lives = Integer.toString(Bomberman.gameEngine.getLives());
         String score = Bomberman.gameEngine.getScore();
@@ -70,17 +73,23 @@ public class NewGame {
         infoBar.getChildren().addAll(livesText, scoreText, timeText);
     }
     
-    public static void refreshScore(){
+    /**
+    * Se encarga de actualizar el puntaje mostrado en pantalla, según el desarrollo del juego lo demande.
+    * @param score Puntaje del jugador al invocar el método.
+    */
+    public static void refreshScore(String score){
         infoBar.getChildren().remove(1);
-        String score = Bomberman.gameEngine.getScore();
         Text scoreText = new Text("SCORE: "+score);
         scoreText.setId("info");
         infoBar.getChildren().add(1, scoreText);
     }
     
-    public static void refreshTime(){
+    /**
+    * Se encarga de actualizar el tiempo segundo a segundo.
+    * @param time Timepo en formato hh:mm:ss al invocar el método.
+    */
+    public static void refreshTime(String time){
         infoBar.getChildren().remove(2);
-        String time = Bomberman.gameEngine.getTime();
         Text timeText = new Text("TIME: "+time);
         timeText.setId("info");
         infoBar.getChildren().add(2, timeText);
@@ -93,6 +102,10 @@ public class NewGame {
         return background;
     }
     
+    /**
+    * Se encarga de retornar el objeto contenedor que será usado como Node Root para ser colocado en un objeto Scene.
+    * @return Instancia de la clase BorderPane.
+    */
     public BorderPane getRoot(){
         return this.root;
     }

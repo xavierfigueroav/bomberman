@@ -17,8 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos y lógicos que constituyen a un Balloon (enemigo) y permiten su autonomía.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class Balloon{
     
@@ -26,6 +26,11 @@ public class Balloon{
     private int balloonPosX, balloonPosY, direction;
     private Timeline timeline;
     
+    /**
+     * Se encarga de crear una instancia de esta clase.
+     * @param balloonPosX Posición horizontal inicial del balloon en el campo de juego.
+     * @param balloonPosY Posición vertical (fija) del balloon en el campo de juego.
+     */
     public Balloon(int balloonPosX, int balloonPosY){
         this.balloon = new ImageView(FileManager.getImage("src/images/balloon.gif"));
         this.balloonPosX = balloonPosX;
@@ -37,7 +42,7 @@ public class Balloon{
         
     }
     
-    public void setBalloon(){
+    private void setBalloon(){
         GameBoard.setInGrid(this, this.balloonPosX, this.balloonPosY);
     }
     
@@ -82,6 +87,9 @@ public class Balloon{
         }
     }
     
+    /**
+     * Se encarga de detener el movimiento del balloon.
+     */
     public void stopBalloon(){
         
         if (timeline!=null){
@@ -90,6 +98,9 @@ public class Balloon{
         
     }
     
+    /**
+     * Se encarga de eliminar al balloon del campo de juego y de la cuadrícula que lo simula.
+     */
     public void destroyBalloon(){
         
         this.stopBalloon();
@@ -97,16 +108,11 @@ public class Balloon{
         
     }
     
+    /**
+     * Retorna el elemento gráfico del objeto Balloon, aquel que puede ser agregado al campo de juego.
+     * @return Icono del balloon.
+     */
     public ImageView getAsNode(){
         return this.balloon;
     }
-    
-    public int getPosX(){
-        return this.balloonPosX;
-    }
-    
-    public int getPosY(){
-        return this.balloonPosY;
-    }
-    
 }

@@ -16,15 +16,19 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos y lógicos que constituyen a una bomba y permiten su autonomía.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class Bomb{
     
     private final ImageView bomb;
     private final int bombPosX, bombPosY;
     
-    
+    /**
+     * Se encarga de crear una instancia de esta clase.
+     * @param bombPosX Posición horizontal de la bomba en el campo de juego.
+     * @param bombPosY Posición vertical de la bomba en el campo de juego.
+     */
     public Bomb(int bombPosX, int bombPosY){
         
         this.bomb = new ImageView(FileManager.getImage("src/images/bomb.png"));
@@ -149,6 +153,10 @@ public class Bomb{
         
     }
     
+    /**
+     * Retorna el elemento gráfico del objeto Bomb, aquel que puede ser agregado al campo de juego.
+     * @return Icono de la bomba.
+     */
     public ImageView getAsNode(){
         return this.bomb;
     }

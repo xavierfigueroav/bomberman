@@ -16,16 +16,23 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- *
- * @author admin
+ * Es la clase principal del proyecto y desde la cual empieza la ejecución del programa.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 
 public class Bomberman extends Application {
     
     private static Stage stage;
+    /**
+     * Objeto que contiene los métodos y campos necesarios para realizar tareas autónomas en el juego.
+     */
     public static GameEngine gameEngine;
     private static Scene welcomeScene, newGameScene, instructionsScene, rankingScene;
     
+    /**
+    * Crea la ventana del programa y establece su configuración inicial.
+    * @param primaryStage Parámetro que representa la ventana del programa.
+    */
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
@@ -57,6 +64,10 @@ public class Bomberman extends Application {
         Font.loadFont(Ranking.class.getResource("/fonts/pixChicago.ttf").toExternalForm(),10);
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage) el Scene que representa la pantalla de bienvenida del programa.
+    * Además, carga el archivo CSS que configura los estilos del Scene mencionado.
+    */
     public static void switchToWelcomeScene(){
         
         stage.setScene(welcomeScene);
@@ -64,6 +75,12 @@ public class Bomberman extends Application {
         
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage), por primera vez, el Scene que representa la pantalla de juego.
+    * Inicializa el campo 'gameEngine'.
+    * Carga el archivo CSS que configura los estilos del Scene mencionado.
+    * Invoca al método listener que se encarga de regresar al jugador a la pantalla de bienvenida cuando la tecla backspace es presionada.
+    */
     public static void setNewGameScene(){
 
         newGameScene = new Scene(new NewGame().getRoot(),800,600);
@@ -75,6 +92,15 @@ public class Bomberman extends Application {
         
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage) el Scene que representa la pantalla de juego, cuando Bomberman muere.
+    * Inicializa el campo 'gameEngine' con parámetros 'lives', 'score' y 'clock'.
+    * Carga el archivo CSS que configura los estilos del Scene mencionado.
+    * Invoca al método listener que se encarga de regresar al jugador a la pantalla de bienvenida cuando la tecla backspace es presionada.
+    * @param lives Representa las vidas que le quedan a Bomberman luego de morir.
+    * @param score Representa el puntaje que tenía el jugador antes de que Bomberman muriera.
+    * @param clock Representa el temporizador del juego y su estado en el momento de la muerte de Bomberman.
+    */
     public static void setNewGameScene(int lives, int score, Clock clock){
 
         newGameScene = new Scene(new NewGame().getRoot(),800,600);
@@ -85,6 +111,11 @@ public class Bomberman extends Application {
         returnToWelcomeSceneOnKeyPress(newGameScene);
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage), el Scene que representa la pantalla de instrucciones del juego.
+    * Carga el archivo CSS que configura los estilos del Scene mencionado.
+    * Invoca al método listener que se encarga de regresar al jugador a la pantalla de bienvenida cuando la tecla backspace es presionada.
+    */
     public static void switchToInstructionsScene(){
         
         stage.setScene(instructionsScene);
@@ -93,6 +124,11 @@ public class Bomberman extends Application {
         
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage), el Scene que representa la pantalla de ranking de jugadores.
+    * Carga el archivo CSS que configura los estilos del Scene mencionado.
+    * Invoca al método listener que se encarga de regresar al jugador a la pantalla de bienvenida cuando la tecla backspace es presionada.
+    */
     public static void switchToRankingScene(){
         
         rankingScene = new Scene(new Ranking().getRoot(),800,600);
@@ -102,6 +138,13 @@ public class Bomberman extends Application {
         
     }
     
+    /**
+    * Se encarga de colocar en la ventana (Stage), el Scene que representa la pantalla de juego terminado.
+    * Carga el archivo CSS que configura los estilos del Scene mencionado.
+    * Invoca al método listener que se encarga de regresar al jugador a la pantalla de bienvenida cuando la tecla backspace es presionada.
+    * @param isWinner Es verdadero cuando jugador ganó el juego y es falso cuando lo perdió.
+    * @param score Representa el puntaje del jugador al terminar el juego.
+    */
     public static void switchToEndGameScene(boolean isWinner, int score){
         Scene endGameScene = new Scene(new GameOver(isWinner, score).getRoot(),800,600);
         stage.setScene(endGameScene);
@@ -132,6 +175,7 @@ public class Bomberman extends Application {
     
 
     /**
+     * Es el primer método que se ejecuta cuando se corre el programa.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

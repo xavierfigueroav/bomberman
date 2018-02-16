@@ -17,14 +17,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos que constituyen a la pantalla que aparece cuando el juego termina.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class GameOver {
     
     private BorderPane root;
     private TextField nameField;
-    
+    /**
+    * Se encarga de crear una instancia de la clase
+    * @param isWinner Es verdadero cuando jugador ganó y es falso cuando lo perdió.
+    * @param score Representa el puntaje del jugador al terminar el juego.
+    */
     public GameOver(boolean isWinner, int score){
         
         Text message, order;
@@ -62,26 +66,24 @@ public class GameOver {
     
     private void handleEnterPress(int score){
         
-        nameField.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event){
-            
-                if(event.getCode().equals(KeyCode.ENTER)){
-                    String name = nameField.getText();
-                    
-                    ArrayList<String> data = new ArrayList();
-                    data.add(name+","+score);
-                    
-                    FileManager.writeFile("src/data/scores.csv", data);
-                    
-                    Bomberman.switchToWelcomeScene();
-                }
-            
+        nameField.setOnKeyPressed((KeyEvent event) -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                String name = nameField.getText();
+                
+                ArrayList<String> data = new ArrayList();
+                data.add(name+","+score);
+                
+                FileManager.writeFile("src/data/scores.csv", data);
+                
+                Bomberman.switchToWelcomeScene();
             }
         });
         
     }
-    
+    /**
+    * Se encarga de retornar el objeto contenedor que será usado como Node Root para ser colocado en un objeto Scene.
+    * @return Instancia de la clase BorderPane.
+    */
     public BorderPane getRoot(){
         return this.root;
     }

@@ -7,13 +7,12 @@ package bomberman;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- *
- * @author Xavier
+ * Contiene todos los elementos gráficos que constituyen a la pantalla de instrucciones del juego.
+ * @author Xavier Figueroa, Isaac Solís, Luis Mariño.
  */
 public class Instructions {
     private final VBox root;
@@ -45,6 +44,10 @@ public class Instructions {
         this.root.getChildren().addAll(title,board);
     }
     
+    /**
+    * Se encarga de retornar el objeto contenedor que será usado como Node Root para ser colocado en un objeto Scene.
+    * @return Instancia de la clase VBox.
+    */
     public VBox getRoot(){
         return this.root;
     }
